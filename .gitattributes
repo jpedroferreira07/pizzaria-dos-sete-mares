@@ -1,0 +1,7 @@
+# Normaliza as quebras de linha (evita avisos de LF/CRLF entre Windows e Linux).
+* text=auto eol=lf
+
+# Arquivos binários: o Git não deve tentar converter nem comparar como texto.
+*.jpg binary
+*.png binary
+*.webp binary
