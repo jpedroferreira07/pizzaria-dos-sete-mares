@@ -1,0 +1,30 @@
+{
+  "name": "pizzaria-dos-sete-mares",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site da Pizzaria dos Sete Mares (HTML, CSS e JavaScript puros).",
+  "type": "module",
+  "scripts": {
+    "servir": "http-server . -p 8080 -c-1 -s",
+    "lint:html": "html-validate index.html servicos.html contato.html 404.html",
+    "lint:css": "stylelint style.css",
+    "lint:js": "eslint .",
+    "verificar:projeto": "node scripts/verificar-projeto.mjs",
+    "teste:a11y": "start-server-and-test servir http://localhost:8080 pa11y-ci",
+    "teste:lighthouse": "lhci autorun",
+    "verificar": "npm run lint:html && npm run lint:css && npm run lint:js && npm run verificar:projeto && npm run teste:a11y",
+    "url": "node scripts/definir-url.mjs"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@lhci/cli": "^0.16.1",
+    "eslint": "^10.14.0",
+    "globals": "^17.14.0",
+    "html-validate": "^11.21.1",
+    "http-server": "^14.1.1",
+    "pa11y-ci": "^5.0.0",
+    "start-server-and-test": "^3.0.13",
+    "stylelint": "^18.0.0",
+    "stylelint-config-standard": "^41.0.0"
+  }
+}
