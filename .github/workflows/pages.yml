@@ -1,0 +1,42 @@
+# Publica o site no GitHub Pages a cada push na main.
+# Antes do primeiro uso: no GitHub, abra Settings > Pages e escolha
+# "Source: GitHub Actions".
+name: Publicar no GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # permite rodar manualmente pela aba Actions
+
+# Permissões necessárias para publicar no Pages (e nada além disso).
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Só uma publicação por vez.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      # Copia SÓ os arquivos do site (sem node_modules, configs e scripts de dev).
+      - name: Montar a pasta do site
+        run: |
+          mkdir _site
+          cp index.html servicos.html contato.html 404.html style.css script.js entrada.js robots.txt sitemap.xml _site/
+          cp -r imagens _site/imagens
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4

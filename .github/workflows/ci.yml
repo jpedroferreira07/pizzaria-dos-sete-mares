@@ -1,0 +1,79 @@
+# CI (integração contínua) da Pizzaria dos Sete Mares.
+# Roda a cada push na main e em todo pull request. Se algo falhar, o pipeline falha.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Permissão mínima: o CI só precisa LER o código.
+permissions:
+  contents: read
+
+# Cancela execuções antigas da mesma branch quando chega um push novo.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Usamos o Chrome que já vem no runner em vez de baixar outro (mais rápido).
+  PUPPETEER_SKIP_DOWNLOAD: "true"
+  PUPPETEER_EXECUTABLE_PATH: /usr/bin/google-chrome
+  CHROME_PATH: /usr/bin/google-chrome
+
+jobs:
+  # 1) Qualidade do código: HTML, CSS, JS e verificações do projeto.
+  qualidade:
+    name: Qualidade (HTML, CSS, JS)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Validar HTML
+        run: npm run lint:html
+      - name: Validar CSS
+        run: npm run lint:css
+      - name: Validar JavaScript (inclui regra no-var)
+        run: npm run lint:js
+      - name: Verificações do projeto (links, SEO, sitemap)
+        run: npm run verificar:projeto
+
+  # 2) Acessibilidade automática (WCAG 2.2 AA) com pa11y + axe.
+  acessibilidade:
+    name: Acessibilidade (pa11y)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run teste:a11y
+
+  # 3) Lighthouse: acessibilidade, SEO e boas práticas >= 90 (performance só avisa).
+  lighthouse:
+    name: Lighthouse
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run teste:lighthouse
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: relatorio-lighthouse
+          path: .lighthouseci
+          if-no-files-found: ignore
