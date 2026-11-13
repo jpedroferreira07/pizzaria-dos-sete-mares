@@ -1,0 +1,6 @@
+# Permite que todos os buscadores leiam o site inteiro.
+User-agent: *
+Allow: /
+
+# Mapa do site (lista das páginas).
+Sitemap: https://jpedroferreira07.github.io/pizzaria-dos-sete-mares/sitemap.xml
