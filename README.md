@@ -1,8 +1,9 @@
 # Pizzaria dos Sete Mares
 
-Site de uma pizzaria temática de piratas, feito com **HTML, CSS e JavaScript puros** (sem frameworks), pensado para portfólio: animações autorais em SVG, acessibilidade, SEO e uma esteira de qualidade (CI) no GitHub Actions.
+Site de uma pizzaria temática de piratas, feito com **HTML, CSS e JavaScript puros** (sem frameworks). Nasceu como trabalho da AP1 de Desenvolvimento Web e foi evoluído depois com animações autorais, cardápio interativo, acessibilidade e um pipeline de qualidade.
 
-> Projeto fictício, feito para estudo. Endereço, telefone, número de WhatsApp e preços são de exemplo.
+## Publicação
+- Link do site publicado: https://jpedroferreira07.github.io/pizzaria-dos-sete-mares/
 
 ## O que tem no site
 
@@ -30,7 +31,11 @@ Site de uma pizzaria temática de piratas, feito com **HTML, CSS e JavaScript pu
 
 ## Tecnologias
 
-HTML5 semântico · CSS3 (variáveis, grid, flexbox, animações) · JavaScript puro (Web Animations API, IntersectionObserver) · SVG inline · Google Fonts (Cinzel Decorative, Cinzel, Alegreya e Nunito).
+- HTML5 semântico 
+- CSS3 (variáveis, grid, flexbox, animações) 
+- JavaScript puro (Web Animations API, IntersectionObserver) 
+- SVG inline 
+- Google Fonts (Cinzel Decorative, Cinzel, Alegreya e Nunito).
 
 ## Como rodar
 
@@ -57,25 +62,6 @@ npm run teste:a11y           # pa11y + axe (WCAG 2 AA)
 npm run teste:lighthouse     # Lighthouse: acessibilidade, SEO e boas práticas >= 90
 ```
 
-Em máquinas sem Chrome, aponte para um navegador instalado, por exemplo no Windows com o Edge:
-
-```bash
-PUPPETEER_EXECUTABLE_PATH="C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe" npm run teste:a11y
-CHROME_PATH="C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe" npm run teste:lighthouse
-```
-
-## Publicar no GitHub Pages
-
-1. Crie o repositório `pizzaria-dos-sete-mares` no GitHub e envie o código.
-2. Em **Settings > Pages**, escolha **Source: GitHub Actions** (o workflow `pages.yml` publica a cada push na `main`).
-3. Troque o usuário provisório pelo seu (canonical, sitemap, robots, Open Graph e dados estruturados):
-
-   ```bash
-   npm run url -- seu-usuario
-   ```
-
-4. Troque o número de WhatsApp de exemplo (`5500000000000`) pelo real nas páginas. O CI avisa enquanto ele existir.
-
 ## Segurança
 
 - **CSP** via `<meta>`: scripts só do próprio site, imagens do próprio site, CSS e fontes apenas do Google Fonts, sem plugins e sem troca de `<base>`. Por isso não há scripts inline (o `entrada.js` roda no `<head>`).
@@ -101,15 +87,11 @@ Verificada com pa11y/axe e Lighthouse (nota 100). Inclui contraste mínimo de 4,
 └── .github/           # workflows (ci.yml, pages.yml) e dependabot.yml
 ```
 
-## Dica para depurar animações
-
-Para ver a animação da garrafa e do mar em câmera lenta, no console do navegador:
-
-```js
-document.documentElement.dataset.velocidade = "5"; // 5x mais lento
-```
-
 ## Observações
 
 - A página 404 usa caminhos relativos; em endereços muito aninhados o CSS pode não carregar (limitação do GitHub Pages).
 - Os dados estruturados (JSON-LD) não incluem endereço nem telefone justamente por serem fictícios. Se preferir que os buscadores não indexem o site, troque a política em `robots.txt` e adicione `<meta name="robots" content="noindex">`.
+
+## Créditos
+
+Desenvolvido por João Pedro Ferreira, com apoio do Claude no código e na revisão.
